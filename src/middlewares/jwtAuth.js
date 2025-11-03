@@ -45,7 +45,7 @@ const validateJWT = (req, res, next) => {
  * Middleware para validar rol de administrador
  */
 const isAdmin = (req, res, next) => {
-    if (req.user.rolNombre !== 'admin') {
+    if (req.user.rol !== '609bdb9c-3df8-458c-9815-4cb993683ea7') {
         return error(res, 'Acceso denegado. Se requiere rol de administrador', 403);
     }
     next();

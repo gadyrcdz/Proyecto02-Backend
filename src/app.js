@@ -58,9 +58,24 @@ app.get('/health', (req, res) => {
 });
 
 // Rutas de la API v1
-// TODO: Importar y usar rutas aquí
-// const authRoutes = require('./routes/auth.routes');
-// app.use('/api/v1/auth', authRoutes);
+const authRoutes = require('./routes/auth.routes');
+const usersRoutes = require('./routes/users.routes');          
+const accountsRoutes = require('./routes/accounts.routes');     
+const transfersRoutes = require('./routes/transfers.routes');   
+const bankRoutes = require('./routes/bank.routes');     
+const cardsRoutes = require('./routes/cards.routes'); 
+const auditRoutes = require('./routes/audit.routes');
+
+
+
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/users', usersRoutes);                          
+app.use('/api/v1/accounts', accountsRoutes);                   
+app.use('/api/v1/transfers', transfersRoutes);                
+app.use('/api/v1/bank', bankRoutes);  
+app.use('/api/v1/cards', cardsRoutes);  
+app.use('/api/v1/audit', auditRoutes);           
+
 
 // ============================================
 // MANEJO DE ERRORES
