@@ -85,13 +85,12 @@ CREATE TABLE IF NOT EXISTS apiKey (
     clave_hash VARCHAR(255) NOT NULL UNIQUE,
     etiqueta VARCHAR(100) NOT NULL,
     activa BOOLEAN NOT NULL DEFAULT TRUE,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Índices
 CREATE INDEX idx_apikey_clave_hash ON apiKey(clave_hash);
 CREATE INDEX idx_apikey_activa ON apiKey(activa) WHERE activa = TRUE;
-CREATE INDEX idx_apikey_creada_por ON apiKey(creada_por);
 
 
 CREATE TABLE IF NOT EXISTS auditoria (
