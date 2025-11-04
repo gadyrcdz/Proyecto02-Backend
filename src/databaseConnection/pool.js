@@ -1,8 +1,15 @@
 const { Pool } = require('pg');
 const config = require('../config/config');
 
-// Crear pool de conexiones
-const pool = new Pool(config.database);
+// Crear pool de conexiones con SSL para producción
+const poolConfig = {
+    ...config.database,
+    ssl: process.env.NODE_ENV === 'production' ? {
+        rejectUnauthorized: false
+    } : false
+};
+
+const pool = new Pool(poolConfig);
 
 // Evento: conexión exitosa
 pool.on('connect', () => {
@@ -32,11 +39,13 @@ const query = async (text, params) => {
 // Funcion para verificar la conexion
 const testConnection = async () => {
     try {
+        console.log('Verificando conexión a la base de datos...');
         const result = await pool.query('SELECT NOW()');
-        console.log('Conexión a BD verificada:', result.rows[0].now);
+        console.log('✅ Conexión a BD verificada:', result.rows[0].now);
         return true;
     } catch (error) {
-        console.error('Error al conectar con la BD:', error.message);
+        console.error('❌ Error al conectar con la BD:', error.message);
+        console.error('Detalles:', error);
         return false;
     }
 };
