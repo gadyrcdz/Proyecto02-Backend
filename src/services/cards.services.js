@@ -132,7 +132,7 @@ class CardsService {
 
             return {
                 message: 'Código OTP generado (válido por 2 minutos)',
-                otpCode: process.env.NODE_ENV === 'development' ? otpCode : undefined
+                otpCode: process.env.NODE_ENV === 'production' ? otpCode : undefined
             };
 
         } catch (error) {
