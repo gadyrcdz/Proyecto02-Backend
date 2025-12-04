@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS cuenta (
 
 INSERT INTO rol(nombre, descripcion) VALUES 
 ('Administrador',  'Administrador del banco DYG'),
-('cliente', 'cliente del banco con acceso limitado')
+('Cliente', 'cliente del banco con acceso limitado')
 ON CONFLICT(nombre) DO NOTHING;
 
 SELECT * FROM rol;

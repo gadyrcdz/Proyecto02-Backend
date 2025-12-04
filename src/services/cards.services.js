@@ -169,7 +169,6 @@ class CardsService {
             }
 
             // OTP válido - NO retornamos PIN/CVV reales por seguridad
-            // En producción, solo se mostrarían en el frontend de forma temporal
             return {
                 message: 'Autorización concedida',
                 cardId: cardId,

@@ -27,7 +27,10 @@ module.exports = {
     apiKey: process.env.API_KEY,
     
     // CORS
-    corsOrigin: process.env.CORS_ORIGIN || '*',
+    corsOrigin: process.env.CORS_ORIGIN
+        ? process.env.CORS_ORIGIN.split(',').map(origin => origin.trim())
+        : '*',
+
     
     // Rate Limiting
     rateLimit: {

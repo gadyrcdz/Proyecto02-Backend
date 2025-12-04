@@ -12,8 +12,8 @@ select * from tarjeta;
 SELECT sp_users_create(
     (SELECT id FROM tipoIdentificacion WHERE nombre = 'Nacional'),
     '1-2345-6789',
-    'GFADYR',
-    'CALDEORN',
+    'gadyr',
+    'calderon',
     'gadyr.gonzalez@email.com',
     '8888-9999',
     'gadyrDiaz',

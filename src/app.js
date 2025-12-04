@@ -4,6 +4,8 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const config = require('./config/config');
 const { errorHandler, notFound } = require('./utils/errorHandler');
+const allowedOrigins = config.corsOrigin;
+
 
 // Crear aplicacion Express
 const app = express();
@@ -17,9 +19,19 @@ app.use(helmet());
 
 // CORS
 app.use(cors({
-    origin: config.corsOrigin,
+    origin: function (origin, callback) {
+        // Permitir solicitudes sin origin (Postman, health checks de Render, curl)
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins === '*' || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('CORS no permitido para este origen: ' + origin));
+        }
+    },
     credentials: true
 }));
+
 
 // Parsear JSON
 app.use(express.json());

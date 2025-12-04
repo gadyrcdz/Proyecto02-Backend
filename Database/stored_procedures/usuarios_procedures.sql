@@ -108,7 +108,7 @@ RETURNS TABLE (
     rol UUID,
     rol_nombre VARCHAR,
     fecha_creacion TIMESTAMP,
-    fecha_actualizacion TIMESTAMP
+    fecha_actu TIMESTAMP
 )
 LANGUAGE plpgsql
 AS $$
@@ -127,7 +127,7 @@ BEGIN
         u.rol,
         r.nombre AS rol_nombre,
         u.fecha_creacion,
-        u.fecha_actualizacion
+        u.fecha_actu
     FROM usuario u
     INNER JOIN tipoIdentificacion ti ON u.tipo_identificacion = ti.id
     INNER JOIN rol r ON u.rol = r.id
@@ -189,7 +189,7 @@ BEGIN
         telefono = COALESCE(p_telefono, telefono),
         usuario = COALESCE(p_usuario, usuario),
         rol = COALESCE(p_rol, rol),
-        fecha_actualizacion = CURRENT_TIMESTAMP
+        fecha_actu = CURRENT_TIMESTAMP
     WHERE id = p_user_id;
     
     GET DIAGNOSTICS v_updated = ROW_COUNT;
