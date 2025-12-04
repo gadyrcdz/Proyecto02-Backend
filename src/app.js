@@ -34,7 +34,7 @@ app.use(cors({
 }));
 
 // IMPORTANTE: Responder OPTIONS (preflight)
-app.options('*', cors());
+app.options('/', cors());
 
 
 
