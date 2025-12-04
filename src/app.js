@@ -18,9 +18,10 @@ const app = express();
 app.use(helmet());
 
 // CORS
+// CORS
 app.use(cors({
     origin: function (origin, callback) {
-        // Permitir solicitudes sin origin (Postman, health checks de Render, curl)
+        // Permitir solicitudes sin origin (Postman, Render, curl)
         if (!origin) return callback(null, true);
 
         if (allowedOrigins === '*' || allowedOrigins.includes(origin)) {
@@ -31,6 +32,10 @@ app.use(cors({
     },
     credentials: true
 }));
+
+// IMPORTANTE: Responder OPTIONS (preflight)
+app.options('*', cors());
+
 
 
 // Parsear JSON
