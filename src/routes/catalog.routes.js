@@ -3,31 +3,30 @@
 const express = require('express');
 const router = express.Router();
 const catalogController = require('../controllers/catalogController');
-const authMiddleware = require('../middleware/authMiddleware');
+
 
 /**
  * Todas las rutas de catálogo requieren autenticación
  */
 
-// Obtener todos los catálogos a la vez
-router.get('/catalog/all', authMiddleware, catalogController.getAllCatalogs);
+router.get('/catalog/all', catalogController.getAllCatalogs);
 
 // Tipos de cuenta
-router.get('/catalog/account-types', authMiddleware, catalogController.getAccountTypes);
+router.get('/catalog/account-types', catalogController.getAccountTypes);
 
 // Monedas
-router.get('/catalog/currencies', authMiddleware, catalogController.getCurrencies);
+router.get('/catalog/currencies', catalogController.getCurrencies);
 
 // Tipos de tarjeta
-router.get('/catalog/card-types', authMiddleware, catalogController.getCardTypes);
+router.get('/catalog/card-types', catalogController.getCardTypes);
 
 // Estados de cuenta
-router.get('/catalog/account-statuses', authMiddleware, catalogController.getAccountStatuses);
+router.get('/catalog/account-statuses', catalogController.getAccountStatuses);
 
 // Tipos de movimiento
-router.get('/catalog/movement-types', authMiddleware, catalogController.getMovementTypes);
+router.get('/catalog/movement-types', catalogController.getMovementTypes);
 
 // Tipos de identificación
-router.get('/catalog/id-types', authMiddleware, catalogController.getIdTypes);
+router.get('/catalog/id-types', catalogController.getIdTypes);
 
 module.exports = router;
