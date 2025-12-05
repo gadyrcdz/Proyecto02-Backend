@@ -1,6 +1,5 @@
-// controllers/catalogController.js - Catálogos del sistema
-
-const config = require('..config/config');
+// controllers/catalogController.js -
+const { pool } = require('../databaseConnection/pool');
 const { success, error } = require('../utils/responseHandler');
 
 const catalogController = {
