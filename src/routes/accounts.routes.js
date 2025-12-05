@@ -18,14 +18,14 @@ router.post('/', accountsController.createAccount);
  * @desc    Listar cuentas
  * @access  Private
  */
-router.get('/', accountsController.getAccounts);
+router.get('/', accountsController.getAccountsByUser);
 
 /**
  * @route   GET /api/v1/accounts/:accountId
  * @desc    Obtener cuenta específica
  * @access  Private
  */
-router.get('/:accountId', accountsController.getAccounts);
+router.get('/:accountId', accountsController.getAccountById);
 
 /**
  * @route   POST /api/v1/accounts/:accountId/status

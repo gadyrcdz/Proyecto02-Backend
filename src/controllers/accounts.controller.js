@@ -42,31 +42,65 @@ class AccountsController {
      * GET /api/v1/accounts
      * GET /api/v1/accounts/:accountId
      */
-    async getAccounts(req, res) {
+    async getAccountsByUser(req, res) {
         try {
-            const { accountId } = req.params;
             const { userId } = req.query;
 
-            // Validar permisos
-            if (req.user.rol !== '609bdb9c-3df8-458c-9815-4cb993683ea7' && userId && userId !== req.user.id) {
+            // Validar permisos: solo admin puede ver cuentas de otros usuarios
+            const isAdmin = req.user.rol === '609bdb9c-3df8-458c-9815-4cb993683ea7';
+            
+            if (!isAdmin && userId && userId !== req.user.id) {
                 return error(res, 'No tienes permiso para ver estas cuentas', 403);
             }
 
-            const ownerId = req.user.rol === '609bdb9c-3df8-458c-9815-4cb993683ea7' ? userId : req.user.id;
+            // Determinar de quién obtener las cuentas
+            const ownerId = (isAdmin && userId) ? userId : req.user.id;
 
-            const accounts = await accountsService.getAccounts(
-                ownerId || null,
-                accountId || null
-            );
+            // Llamar al servicio con ownerId y accountId = null
+            const accounts = await accountsService.getAccounts(ownerId, null);
 
             if (accounts.length === 0) {
                 return error(res, 'No se encontraron cuentas', 404);
             }
 
-            return success(res, accountId ? accounts[0] : accounts, 'Cuentas obtenidas', 200);
+            return success(res, accounts, 'Cuentas obtenidas exitosamente', 200);
         } catch (err) {
-            console.error('Error al obtener cuentas:', err);
+            console.error('Error al obtener cuentas del usuario:', err);
             return error(res, 'Error al obtener cuentas', 500);
+        }
+    }
+
+     async getAccountById(req, res) {
+        try {
+            const { accountId } = req.params;
+
+            // Validar que accountId sea un UUID válido
+            const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+            if (!uuidRegex.test(accountId)) {
+                return error(res, 'ID de cuenta inválido', 400);
+            }
+
+            // Llamar al servicio con ownerId = null y accountId
+            const accounts = await accountsService.getAccounts(null, accountId);
+
+            if (accounts.length === 0) {
+                return error(res, 'Cuenta no encontrada', 404);
+            }
+
+            const account = accounts[0];
+
+            // Validar permisos: solo el dueño o admin pueden ver la cuenta
+            const isAdmin = req.user.rol === '609bdb9c-3df8-458c-9815-4cb993683ea7';
+            const isOwner = account.usuario_id === req.user.id;
+
+            if (!isAdmin && !isOwner) {
+                return error(res, 'No tienes permiso para ver esta cuenta', 403);
+            }
+
+            return success(res, account, 'Cuenta obtenida exitosamente', 200);
+        } catch (err) {
+            console.error('Error al obtener cuenta por ID:', err);
+            return error(res, 'Error al obtener cuenta', 500);
         }
     }
 
