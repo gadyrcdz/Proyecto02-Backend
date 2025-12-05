@@ -82,9 +82,12 @@ const transfersRoutes = require('./routes/transfers.routes');
 const bankRoutes = require('./routes/bank.routes');     
 const cardsRoutes = require('./routes/cards.routes'); 
 const auditRoutes = require('./routes/audit.routes');
+const catalogRoutes = require('./routes/catalog.routes');
 
 
 
+// Registrar rutas
+app.use('/api/v1', catalogRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', usersRoutes);                          
 app.use('/api/v1/accounts', accountsRoutes);                   
