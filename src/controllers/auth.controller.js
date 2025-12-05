@@ -37,14 +37,14 @@ class AuthController {
         try {
             const { email } = req.body;
 
-            // Validaciones
             if (!email) {
                 return error(res, 'Email es requerido', 400);
             }
 
             const result = await authService.forgotPassword(email);
 
-            return success(res, result, 'Código OTP generado', 200);
+            return success(res, { otpCode: result.otpCode }, 'Código OTP generado', 200);
+            
         } catch (err) {
             if (err.message === 'USER_NOT_FOUND') {
                 return error(res, 'Usuario no encontrado', 404);
@@ -53,6 +53,7 @@ class AuthController {
             return error(res, 'Error al procesar solicitud', 500);
         }
     }
+
 
     /**
      * POST /api/v1/auth/verify-otp
