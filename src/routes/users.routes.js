@@ -4,7 +4,6 @@ const usersController = require('../controllers/users.controller');
 const { validateJWT, isAdmin } = require('../middlewares/jwtAuth');
 
 // Todas las rutas requieren JWT
-router.use(validateJWT);
 
 /**
  * @route   POST /api/v1/users
@@ -12,6 +11,8 @@ router.use(validateJWT);
  * @access  Private (Admin only)
  */
 router.post('/',usersController.createUser);
+
+router.use(validateJWT);
 
 /**
  * @route   GET /api/v1/users/:identification
