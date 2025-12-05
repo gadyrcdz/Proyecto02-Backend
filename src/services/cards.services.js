@@ -131,7 +131,6 @@ class CardsService {
             );
 
             return {
-                message: 'Código OTP generado (válido por 2 minutos)',
                 otpCode
             };
 
