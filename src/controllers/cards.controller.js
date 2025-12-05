@@ -137,7 +137,8 @@ class CardsController {
            
             const result = await cardsService.generateOTPForCardDetails(cardId);
 
-            return success(res, result, 'OTP generado', 200);
+            return success(res, { otpCode: result.otpCode }, 'OTP generado', 200);
+
         } catch (err) {
             console.error('Error al generar OTP:', err);
 
