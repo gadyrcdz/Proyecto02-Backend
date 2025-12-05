@@ -93,8 +93,7 @@ class AuthService {
 
            
             return {
-                // Solo para desarrollo/testing:
-                otpCode: config.nodeEnv === 'production' ? otpCode : undefined
+                otpCode
             };
         } catch (error) {
             throw error;
