@@ -132,7 +132,7 @@ class CardsService {
 
             return {
                 message: 'Código OTP generado (válido por 2 minutos)',
-                otpCode: process.env.NODE_ENV === 'production' ? otpCode : undefined
+                otpCode
             };
 
         } catch (error) {
@@ -172,8 +172,6 @@ class CardsService {
             return {
                 message: 'Autorización concedida',
                 cardId: cardId,
-                // En una app real, el frontend mostraría el PIN/CVV temporalmente
-                // y no se enviaría por la API
                 note: 'PIN y CVV disponibles para visualización temporal'
             };
         } catch (error) {
