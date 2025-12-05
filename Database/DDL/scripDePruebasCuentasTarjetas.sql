@@ -7,17 +7,22 @@ select * from moneda;
 select * from estadoCuenta;
 select * from cuenta;
 select * from tipoTarjeta;
-select * from tarjeta;
+select * from tipoIdentificacion;
+
+select * from auditoria;
+drop table auditoria; 
+select * from tipoMovimientoTarjeta;
+select * from tipoMovimiento;
 -- 1. Crear usuario
 SELECT sp_users_create(
     (SELECT id FROM tipoIdentificacion WHERE nombre = 'Nacional'),
-    '1-2345-6789',
+    '7-2345-6789',
     'gadyr',
-    'calderon',
-    'gadyr.gonzalez@email.com',
+    'CALDEORN',
+    'gadyr.gadyr@email.com',
     '8888-9999',
-    'gadyrDiaz',
-    '$2b$10$rQlLJONtZdzRg1nnhvztDuPp.rPIqMxWRxrflttOZ8A7XaJH0MLSq',
+    'gadyrdcd',
+    '$2b$10$Wll.2dloX.hJCafJkWqxBOnRTFByIoT43aTbuOz.nYv2UQpOb.DEy',
     (SELECT id FROM rol WHERE nombre = 'cliente')
 ) as nuevo_usuario_id;
 
@@ -47,16 +52,16 @@ SELECT sp_users_delete((SELECT id FROM usuario WHERE usuario = 'mariag'));
 -- ============================================
 -- PRUEBAS DE CUENTAS
 -- ============================================
-INSERT INTO tipoCuenta(id, nombre, descripcion) VALUES 
-('asdasdadasdasd',  'Administrador del banco DYG'),
-('cliente', 'cliente del banco con acceso limitado')
+INSERT INTO tipoIdentificacion( nombre, descripcion) VALUES 
+('DIMEX',  'Identificacion tipo DIMEX'),
+('Pasaporte', 'Identificacion tipo pasaporte')
 
 
 -- 1. Crear cuenta
 SELECT sp_accounts_create(
-    (SELECT id FROM usuario WHERE usuario = 'juanperez'),
-    'CR12345678901234567890',
-    'Mi cuenta principal',
+    (SELECT id FROM usuario WHERE usuario = 'gadyrdcd'),
+    'CR22345678901234567121',
+    'Mi cuenta principal gadyr buena',
     (SELECT id FROM tipoCuenta WHERE nombre = 'Ahorros'),
     (SELECT id FROM moneda WHERE iso = 'CRC'),
     100000.00,  -- Saldo inicial
@@ -71,8 +76,8 @@ SELECT * FROM sp_accounts_get(
 
 -- 3. Ver una cuenta específica
 SELECT * FROM sp_accounts_get(
-    NULL,
-    '7c1f8584-a8e9-4837-b42e-ae350e64575a'
+   'da84a14c-2ed1-4e79-a464-33afefa9d172',
+    null
 );
 
 -- 4. Cambiar estado de cuenta a bloqueada

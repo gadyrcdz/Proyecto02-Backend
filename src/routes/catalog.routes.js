@@ -24,7 +24,10 @@ router.get('/catalog/card-types', catalogController.getCardTypes);
 router.get('/catalog/account-statuses', catalogController.getAccountStatuses);
 
 // Tipos de movimiento
-router.get('/catalog/movement-types', catalogController.getMovementTypes);
+router.get('/catalog/movement-typesAcc', catalogController.getMovementTypesAccount);
+router.get('/catalog/movement-typesCar', catalogController.getMovementTypesCard);
+
+
 
 // Tipos de identificación
 router.get('/catalog/id-types', catalogController.getIdTypes);

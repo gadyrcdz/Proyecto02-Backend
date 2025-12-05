@@ -27,7 +27,7 @@ const catalogController = {
     async getCurrencies(req, res) {
         try {
             const result = await pool.query(
-                'SELECT id, nombre, iso, simbolo FROM moneda ORDER BY nombre'
+                'SELECT id, nombre, iso FROM moneda ORDER BY nombre'
             );
 
             return success(res, result.rows, 'Monedas obtenidas', 200);
@@ -75,10 +75,22 @@ const catalogController = {
      * Obtener tipos de movimiento
      * GET /catalog/movement-types
      */
-    async getMovementTypes(req, res) {
+    async getMovementTypesAccount(req, res) {
         try {
             const result = await pool.query(
-                'SELECT id, nombre FROM tipoMovimiento ORDER BY nombre'
+                'SELECT id, nombre FROM tipoMovimientoCuenta ORDER BY nombre'
+            );
+
+            return success(res, result.rows, 'Tipos de movimiento obtenidos', 200);
+        } catch (err) {
+            console.error('Error al obtener tipos de movimiento:', err);
+            return error(res, 'Error al obtener tipos de movimiento', 500);
+        }
+    },
+    async getMovementTypesCard(req, res) {
+        try {
+            const result = await pool.query(
+                'SELECT id, nombre FROM tipoMovimientoTarjeta ORDER BY nombre'
             );
 
             return success(res, result.rows, 'Tipos de movimiento obtenidos', 200);
@@ -95,7 +107,7 @@ const catalogController = {
     async getIdTypes(req, res) {
         try {
             const result = await pool.query(
-                'SELECT id, nombre FROM tipo_identificacion ORDER BY nombre'
+                'SELECT id, nombre FROM tipoIdentificacion ORDER BY nombre'
             );
 
             return success(res, result.rows, 'Tipos de identificación obtenidos', 200);
@@ -111,13 +123,14 @@ const catalogController = {
      */
     async getAllCatalogs(req, res) {
         try {
-            const [accountTypes, currencies, cardTypes, accountStatuses, movementTypes, idTypes] = await Promise.all([
+            const [accountTypes, currencies, cardTypes, accountStatuses, movementTypesAcc,movementTypesCar ,idTypes] = await Promise.all([
                 pool.query('SELECT id, nombre, descripcion FROM tipoCuenta ORDER BY nombre'),
-                pool.query('SELECT id, nombre, iso, simbolo FROM moneda ORDER BY nombre'),
+                pool.query('SELECT id, nombre, iso FROM moneda ORDER BY nombre'),
                 pool.query('SELECT id, nombre, descripcion FROM tipoTarjeta ORDER BY nombre'),
                 pool.query('SELECT id, nombre FROM estadoCuenta ORDER BY nombre'),
-                pool.query('SELECT id, nombre FROM tipoMovimiento ORDER BY nombre'),
-                pool.query('SELECT id, nombre FROM tipo_identificacion ORDER BY nombre')
+                pool.query('SELECT id, nombre FROM tipoMovimientoCuenta ORDER BY nombre'),
+                pool.query('SELECT id, nombre FROM tipoMovimientoTarjeta ORDER BY nombre'),
+                pool.query('SELECT id, nombre FROM tipoIdentificacion ORDER BY nombre')
             ]);
 
             const catalogs = {
@@ -125,7 +138,8 @@ const catalogController = {
                 currencies: currencies.rows,
                 cardTypes: cardTypes.rows,
                 accountStatuses: accountStatuses.rows,
-                movementTypes: movementTypes.rows,
+                movementTypes: movementTypesAcc.rows,
+                movementTypes: movementTypesCar.rows,
                 idTypes: idTypes.rows
             };
 
